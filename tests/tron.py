@@ -163,7 +163,7 @@ class TronClient:
             self._navigator.navigate_until_text_and_compare(
                 # Use custom touch coordinates to account for warning approve
                 # button position.
-                NavIns(NavInsID.TOUCH, (200, 545)),
+                NavInsID.SWIPE_CENTER_TO_LEFT,
                 [
                     NavInsID.USE_CASE_REVIEW_CONFIRM,
                     NavInsID.USE_CASE_STATUS_DISMISS
