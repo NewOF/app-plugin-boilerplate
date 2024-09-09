@@ -61,9 +61,13 @@ class TestTRX():
                     NavInsID.RIGHT_CLICK,
                     NavInsID.RIGHT_CLICK,
                     NavInsID.BOTH_CLICK,
+                ]
+                if firmware.device != "nanos":
+                    instructions += [NavInsID.RIGHT_CLICK]
+                instructions += [
                     # Go back to main menu
                     NavInsID.RIGHT_CLICK,
-                    NavInsID.BOTH_CLICK,
+                    NavInsID.BOTH_CLICK
                 ]
 
             navigator.navigate(instructions,

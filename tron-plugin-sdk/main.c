@@ -29,26 +29,26 @@ void handle_query_contract_ui(tronQueryContractUI_t *parameters);
 
 // Calls the tron app.
 static void call_app_tron() {
-    unsigned int libcall_params[1];
-    libcall_params[0] = (unsigned int)"Tron";
-//     libcall_params[1] = 0x100;
-//     libcall_params[2] = RUN_APPLICATION;
-//     libcall_params[3] = (unsigned int) NULL;
-// #ifdef HAVE_NBGL
-//     caller_app_t capp;
-//     const char name[] = APPNAME;
-//     nbgl_icon_details_t icon_details;
-//     uint8_t bitmap[sizeof(ICONBITMAP)];
+    unsigned int libcall_params[5];
+    libcall_params[0] = (unsigned int) "Tron";
+    libcall_params[1] = 0x100;
+    libcall_params[2] = RUN_APPLICATION;
+    libcall_params[3] = (unsigned int) NULL;
+#ifdef HAVE_NBGL
+    caller_app_t capp;
+    const char name[] = APPNAME;
+    nbgl_icon_details_t icon_details;
+    uint8_t bitmap[sizeof(ICONBITMAP)];
 
-//     memcpy(&icon_details, &ICONGLYPH, sizeof(ICONGLYPH));
-//     memcpy(&bitmap, &ICONBITMAP, sizeof(bitmap));
-//     icon_details.bitmap = (const uint8_t *) bitmap;
-//     capp.name = (const char *) name;
-//     capp.icon = &icon_details;
-//     libcall_params[4] = (unsigned int) &capp;
-// #else
-//     libcall_params[4] = (unsigned int) NULL;
-// #endif
+    memcpy(&icon_details, &ICONGLYPH, sizeof(ICONGLYPH));
+    memcpy(&bitmap, &ICONBITMAP, sizeof(bitmap));
+    icon_details.bitmap = (const uint8_t *) bitmap;
+    capp.name = (const char *) name;
+    capp.icon = &icon_details;
+    libcall_params[4] = (unsigned int) &capp;
+#else
+    libcall_params[4] = (unsigned int) NULL;
+#endif
     os_lib_call((unsigned int *) &libcall_params);
 }
 

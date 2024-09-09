@@ -42,7 +42,7 @@ char const BASE58_ALPHABET[] = {
     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'             //
 };
 
-int base58_decode(const char *in, size_t in_len, uint8_t *out, size_t out_len)
+int base58_decode_v2(const char *in, size_t in_len, uint8_t *out, size_t out_len)
 {
     uint8_t tmp[MAX_DEC_INPUT_SIZE]    = {0};
     uint8_t buffer[MAX_DEC_INPUT_SIZE] = {0};
@@ -105,7 +105,7 @@ int base58_decode(const char *in, size_t in_len, uint8_t *out, size_t out_len)
     return length;
 }
 
-int base58_encode(const uint8_t *in, size_t in_len, char *out, size_t out_len)
+int base58_encode_v2(const uint8_t *in, size_t in_len, char *out, size_t out_len)
 {
     uint8_t buffer[MAX_ENC_INPUT_SIZE * 138 / 100 + 1] = {0};
     size_t  i, j;

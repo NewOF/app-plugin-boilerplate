@@ -30,7 +30,7 @@
  * @return number of bytes decoded, -1 otherwise.
  *
  */
-int base58_decode(const char *in, size_t in_len, uint8_t *out, size_t out_len);
+int base58_decode_v2(const char *in, size_t in_len, uint8_t *out, size_t out_len);
 
 /**
  * Encode input bytes in base 58.
@@ -49,4 +49,4 @@ int base58_decode(const char *in, size_t in_len, uint8_t *out, size_t out_len);
  * @return number of bytes encoded, -1 otherwise.
  *
  */
-int base58_encode(const uint8_t *in, size_t in_len, char *out, size_t out_len);
+int base58_encode_v2(const uint8_t *in, size_t in_len, char *out, size_t out_len);

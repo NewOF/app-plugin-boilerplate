@@ -56,9 +56,9 @@ typedef enum tron_ui_type_e {
     // If tokenLookup1 is set, the amount is provided for this token
     TRON_UI_TYPE_AMOUNT_ADDRESS = 0x01,
 
-    // If uiType is UI_TYPE_GENERIC, TRON will use the dedicated ETH plugin UI
-    // the ETH application provides tokens if requested then prompts for each UI field
-    // The first field is forced by the ETH app to be the name + version of the plugin handling the
+    // If uiType is UI_TYPE_GENERIC, TRON will use the dedicated plugin UI
+    // the application provides tokens if requested then prompts for each UI field
+    // The first field is forced by the app to be the name + version of the plugin handling the
     // request. The last field is the fee amount
     TRON_UI_TYPE_GENERIC = 0x02,
 } tron_ui_type_t;
@@ -156,7 +156,7 @@ typedef struct tronPluginProvideInfo_s {
     tronPluginSharedRO_t *pluginSharedRO;
     uint8_t *pluginContext; // PLUGIN_CONTEXT_SIZE
 
-    union extraInfo_t *item1;  // set by the ETH application, to be saved by the plugin
+    union extraInfo_t *item1;  // set by the application, to be saved by the plugin
     union extraInfo_t *item2;
 
     uint8_t additionalScreens;  // Used by the plugin if it needs to display additional screens
