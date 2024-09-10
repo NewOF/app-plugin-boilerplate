@@ -158,8 +158,32 @@ class TronClient:
     def getAccount(self, number):
         return self.accounts[number]
 
-    def navigate(self, snappath: Path = None, text: str = ""):
-        if self._firmware.device == "stax":
+    def navigate(self, snappath: Path = None, text: str = "", warning_approve: bool = False):
+        if self._firmware.is_nano:
+            self._navigator.navigate_until_text_and_compare(
+                NavIns(NavInsID.RIGHT_CLICK), [NavIns(NavInsID.BOTH_CLICK)],
+                text,
+                ROOT_SCREENSHOT_PATH,
+                snappath,
+                screen_change_before_first_instruction=True)
+        else:
+            path_name = ""
+            screen_change_before_first_instruction = True
+            if warning_approve:
+                # Use custom touch coordinates to account for warning approve
+                # button position.
+                instructions = [
+                    NavIns(
+                        NavInsID.TOUCH,
+                        (200, 445 if self._firmware.device.startswith("flex")
+                         else 545)),
+                ]
+                self._navigator.navigate_and_compare(ROOT_SCREENSHOT_PATH,
+                                                     str(snappath) + "/part1",
+                                                     instructions)
+                path_name = "/part2"
+                screen_change_before_first_instruction = False
+
             self._navigator.navigate_until_text_and_compare(
                 # Use custom touch coordinates to account for warning approve
                 # button position.
@@ -170,15 +194,9 @@ class TronClient:
                 ],
                 text,
                 ROOT_SCREENSHOT_PATH,
-                snappath,
-                screen_change_before_first_instruction=True)
-        else:
-            self._navigator.navigate_until_text_and_compare(
-                NavIns(NavInsID.RIGHT_CLICK), [NavIns(NavInsID.BOTH_CLICK)],
-                text,
-                ROOT_SCREENSHOT_PATH,
-                snappath,
-                screen_change_before_first_instruction=True)
+                str(snappath) + path_name,
+                screen_change_before_first_instruction=screen_change_before_first_instruction)
+
 
     def getVersion(self):
         return self._client.exchange(CLA, InsType.GET_APP_CONFIGURATION, 0x00,
@@ -218,7 +236,8 @@ class TronClient:
              signatures=[],
              snappath: Path = None,
              text: str = "",
-             navigate: bool = True):
+             navigate: bool = True,
+             warning_approve: bool = False):
         messages = []
 
         # Split transaction in multiples APDU
@@ -256,7 +275,7 @@ class TronClient:
         if navigate:
             with self._client.exchange_async(CLA, InsType.CLEAR_SIGN, p1, 0x00,
                                              messages[-1]):
-                self.navigate(snappath, text)
+                self.navigate(snappath, text, warning_approve)
             return self._client.last_async_response
         else:
             return self._client.exchange(CLA, InsType.CLEAR_SIGN, p1, 0x00,
